@@ -31,9 +31,11 @@ export default (url, opt) => {
 
                 // If the response contains an error, throw it so we know to retry
                 let body;
-                try {
+                const contentType = response.headers.get('content-type');
+
+                if (contentType.includes('json') || !contentType) {
                     body = await response.json();
-                } catch (err) {
+                } else {
                     body = await response.text();
                 }
 
