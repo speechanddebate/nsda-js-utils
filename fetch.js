@@ -30,7 +30,13 @@ export default (url, opt) => {
                 }
 
                 // If the response contains an error, throw it so we know to retry
-                const body = await response.json();
+                let body;
+                try {
+                    body = await response.json();
+                } catch (err) {
+                    body = await response.text();
+                }
+
                 if (body) {
                     const err = new Error(body.message || statusText);
                     err.statusCode = statusCode;
