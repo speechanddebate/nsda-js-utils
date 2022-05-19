@@ -110,3 +110,5 @@ export const roundName = (round) => {
 };
 
 export default null;
+
+export { default as fetch } from './fetch';

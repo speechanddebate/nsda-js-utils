@@ -1,6 +1,6 @@
 {
   "name": "@speechanddebate/nsda-js-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NSDA JS Utilities",
   "main": "index.js",
   "type": "module",
