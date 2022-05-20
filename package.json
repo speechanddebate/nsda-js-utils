@@ -1,6 +1,6 @@
 {
   "name": "@speechanddebate/nsda-js-utils",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "NSDA JS Utilities",
   "main": "index.js",
   "type": "module",
@@ -22,10 +22,10 @@
     "moment-timezone": "^0.5.32"
   },
   "devDependencies": {
-    "@speechanddebate/eslint-config-nsda": "^1.0.10",
+    "@speechanddebate/eslint-config-nsda": "^1.0.15",
     "chai": "^4.2.0",
-    "eslint": "^7.21.0",
-    "eslint-plugin-import": "^2.19.1",
+    "eslint": "^8.15.0",
+    "eslint-plugin-import": "^2.25.2",
     "jest": "^28.1.0",
     "sinon": "^7.3.1"
   },
