@@ -33,7 +33,7 @@ export default (url, opt) => {
                 let body;
                 const contentType = response.headers.get('content-type');
 
-                if (contentType.includes('json') || !contentType) {
+                if (!contentType || (contentType && contentType?.includes('json'))) {
                     body = await response.json();
                 } else {
                     body = await response.text();
