@@ -1,6 +1,6 @@
 {
   "name": "@speechanddebate/nsda-js-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "NSDA JS Utilities",
   "main": "index.js",
   "type": "module",
@@ -33,6 +33,10 @@
     "transform": {}
   },
   "eslintConfig": {
-    "extends": "@speechanddebate/eslint-config-nsda"
+    "extends": "@speechanddebate/eslint-config-nsda",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    }
   }
 }

@@ -17,7 +17,7 @@ export default (url, opt) => {
                 const response = await fetch(url, opt);
                 statusCode = response.status;
                 statusText = response.statusText;
-                const statusStr = response.status.toString();
+                const statusStr = response.status?.toString();
 
                 // Don't retry if status code is 2xx or 404
                 if (statusStr.indexOf('2') === 0) {
@@ -39,11 +39,11 @@ export default (url, opt) => {
                     body = await response.text();
                 }
 
-                if (body) {
-                    const err = new Error(body.message || statusText);
-                    err.statusCode = statusCode;
-                    throw err;
-                }
+                if (!body) { body = statusText; }
+
+                const err = new Error(body.message || body);
+                err.statusCode = statusCode;
+                throw err;
             } catch (err) {
                 if (maxRetries !== 0 && retryCount < maxRetries) {
                     retryCount += 1;
