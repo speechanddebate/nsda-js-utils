@@ -29,21 +29,16 @@ export default (url, opt) => {
                     return reject(err);
                 }
 
-                // If the response contains an error, throw it so we know to retry
+                // The response was an error, so extract any error message and rethrow
+                // Parse as text first because we can only read the response stream once
                 let body;
-                const contentType = response.headers.get('content-type');
-
-                if (!contentType || (contentType && contentType?.includes('json'))) {
-                    try {
-                        body = await response.json();
-                    } catch (err) {
-                        body = statusText;
-                    }
-                } else {
-                    body = await response.text();
+                const text = await response.text();
+                try {
+                    const json = await JSON.parse(text);
+                    if (json) { body = json; }
+                } catch (err) {
+                    body = text || statusText;
                 }
-
-                if (!body) { body = statusText; }
 
                 const err = new Error(body.message || body);
                 err.statusCode = statusCode;
