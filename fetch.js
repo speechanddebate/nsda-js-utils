@@ -40,7 +40,11 @@ export default (url, opt) => {
                     body = text || statusText;
                 }
 
-                const err = new Error(body.message || body.error || body);
+                const err = new Error(
+                    (typeof body.message === 'string' ? body.message : JSON.stringify(body.message))
+                    || (typeof body.error === 'string' ? body.error : JSON.stringify(body.error))
+                    || body
+                );
                 err.statusCode = statusCode;
                 throw err;
             } catch (err) {
