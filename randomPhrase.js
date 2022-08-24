@@ -37,7 +37,10 @@ export const nouns = [
 export const randomPhrase = () => {
     let adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
     let animal = animals[Math.floor(Math.random() * animals.length)];
-    const number = Math.floor(Math.random() * (999 - 1) + 1);
+    let number = Math.floor(Math.random() * (999 - 1) + 1);
+    if ([69, 420, 666].includes(number)) {
+        number += 1;
+    }
 
     adjective = adjective.charAt(0).toUpperCase() + adjective.substring(1).toLowerCase();
     animal = animal.charAt(0).toUpperCase() + animal.substring(1).toLowerCase();
