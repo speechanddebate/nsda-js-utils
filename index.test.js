@@ -2,7 +2,9 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 import {
     academicYear,
+    tabroomAcademicYear,
     condenseDateRange,
+    showDateTime,
     ordinalize,
     escapeCSV,
     emailValidator,
@@ -14,7 +16,7 @@ import {
 } from './index';
 
 describe.skip('Academic Year helper', () => {
-    it.skip('should return the correct academic year', (done) => {
+    it.skip('should return the correct academic year', async () => {
         let clock;
         clock = sinon.useFakeTimers(new Date(2017, 8, 1).getTime());
         assert.strictEqual(academicYear(), '2017-2018', 'Correct date in fall');
@@ -23,38 +25,46 @@ describe.skip('Academic Year helper', () => {
         clock = sinon.useFakeTimers(new Date(2018, 8, 1).getTime());
         assert.strictEqual(academicYear(), '2018-2019', 'Correct date in following year');
         clock.restore();
-        done();
     });
 
-    it('should return the academic year for a specified year', (done) => {
+    it('should return the academic year for a specified year', async () => {
         assert.strictEqual(academicYear(2017), '2017-2018', 'Correct date');
-        done();
+    });
+
+    it.skip('Returns the correct Tabroom academic year given a Date object', async () => {
+        let tick = new Date(2017, 9, 1);
+        assert.strictEqual(tabroomAcademicYear(tick), '2017-2018', 'Correct date in fall');
+        tick = new Date(2018, 2, 1);
+        assert.strictEqual(tabroomAcademicYear(tick), '2017-2018', 'Correct date in spring');
+        tick = new Date(2019, 2, 1);
+        assert.strictEqual(tabroomAcademicYear(tick), '2018-2019', 'Correct date in following year');
+        tick = new Date(2019, 6, 30);
+        assert.strictEqual(tabroomAcademicYear(tick), '2018-2019', 'Correct date just under edge');
+        tick = new Date(2019, 7, 1);
+        assert.strictEqual(tabroomAcademicYear(tick), '2019-2020', 'Correct date just over edge');
     });
 });
 
 describe('Condense date range helper', () => {
-    it('should return a single date for the same day', (done) => {
+    it('should return a single date for the same day', async () => {
         assert.strictEqual(condenseDateRange('2017-08-01 08:00:00', '2017-08-01 08:00:00'),
             '8/1/2017',
             'Correct single date'
         );
-        done();
     });
 
-    it('should return the range for different days', (done) => {
+    it('should return the range for different days', async () => {
         assert.strictEqual(condenseDateRange('2017-08-01 08:00:00', '2017-08-02 08:00:00'),
             '8/1/2017 - 8/2/2017',
             'Correct date range'
         );
-        done();
     });
 
-    it('should return nothing for invalid dates', (done) => {
+    it('should return nothing for invalid dates', async () => {
         assert.strictEqual(condenseDateRange('', ''),
             '',
             'Correct date range'
         );
-        done();
     });
 });
 
@@ -128,5 +138,31 @@ describe('Side helpers', () => {
         assert.strictEqual(roundName(1), 'Round 1', 'Correct round name');
         assert.strictEqual(roundName('1'), 'Round 1', 'Correct round name');
         assert.strictEqual(roundName('Doubles'), 'Doubles', 'Correct round name');
+    });
+});
+
+describe('DateTime Formatter', () => {
+    const dateSample = '2020-11-07 16:30:00';
+
+    it('Returns a Date object if given a MySQL Date string and no other options', async () => {
+        const dtObject = showDateTime(dateSample);
+        assert.instanceOf(dtObject, Date, 'Object is a date');
+        assert.equal(dtObject.getFullYear(), '2020', 'Year is correct');
+    });
+
+    it('Returns a US formatted EDT date given locale & options', async () => {
+        const dtString = showDateTime(dateSample, {
+            locale: 'en-us',
+            tz: 'America/New_York',
+            format: 'long',
+        });
+
+        assert.typeOf(dtString, 'string', 'Return a string');
+
+        assert.equal(
+            dtString,
+            'Sat, November 7, 2020 at 11:30 AM EST',
+            'String format is correct'
+        );
     });
 });
