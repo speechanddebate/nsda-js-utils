@@ -61,7 +61,7 @@ export const tabroomAcademicYear = (targetDate) => {
     return `${startYear}-${endYear}`;
 };
 
-export const condenseDateRange = (start, end) {
+export const condenseDateRange = (start, end) => {
     const startMoment = moment(start || null);
     const endMoment = moment(end || null);
 
