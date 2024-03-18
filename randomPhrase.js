@@ -15,11 +15,11 @@ export const animals = [
     'badger', 'bat', 'bear', 'bird', 'bobcat', 'bulldog', 'cat', 'catfish', 'cheetah', 'chicken',
     'chipmunk', 'cobra', 'cougar', 'cow', 'crab', 'deer', 'dog', 'dolphin', 'dragon', 'duck',
     'eagle', 'eel', 'elephant', 'emu', 'falcon', 'fish', 'fly', 'fox', 'frog', 'gecko', 'goat',
-    'goose', 'grasshopper', 'horse', 'hound', 'insect', 'jellyfish', 'kangaroo', 'ladybug', 'lion',
-    'lizard', 'monkey', 'moose', 'moth', 'mouse', 'mule', 'newt', 'octopus', 'otter', 'owl',
+    'goose', 'grasshopper', 'hornet', 'horse', 'hound', 'insect', 'jellyfish', 'kangaroo', 'ladybug',
+    'lion', 'lizard', 'monkey', 'moose', 'moth', 'mouse', 'mule', 'newt', 'octopus', 'otter', 'owl',
     'panda', 'panther', 'parrot', 'penguin', 'pig', 'puma', 'rabbit', 'rat', 'robin', 'seahorse',
     'sheep', 'shrimp', 'skunk', 'sloth', 'snail', 'snake', 'squid', 'swan', 'tiger', 'turkey',
-    'turtle', 'walrus', 'wasp', 'wombat', 'yak', 'zebra',
+    'turtle', 'walrus', 'wombat', 'yak', 'zebra',
 ];
 
 // Currently unused, can add for more entropy
