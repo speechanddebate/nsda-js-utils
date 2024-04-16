@@ -34,7 +34,7 @@ export const nouns = [
     'force', 'desk', 'chair', 'lamp', 'flower', 'tree', 'truck', 'mountain', 'hill', 'table',
 ];
 
-export const randomPhrase = () => {
+export const randomPhrase = (): string => {
     let adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
     let animal = animals[Math.floor(Math.random() * animals.length)];
     let number = Math.floor(Math.random() * (999 - 1) + 1);

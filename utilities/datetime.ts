@@ -30,7 +30,7 @@ export const momentObjectOrStringToISODateTime = input => (
         new Date(`${input} UTC`).toISOString()
 );
 
-export const academicYear = (year) => {
+export const academicYear = (year: string) => {
     // If passed a valid year, assume it's the start of the academic year
     if (parseInt(year)) {
         return `${year}-${year + 1}`;
@@ -61,7 +61,7 @@ export const tabroomAcademicYear = (targetDate) => {
     return `${startYear}-${endYear}`;
 };
 
-export const condenseDateRange = (start, end) => {
+export const condenseDateRange = (start: string, end: string) => {
     const startMoment = moment(start || null);
     const endMoment = moment(end || null);
 
@@ -77,8 +77,8 @@ export const condenseDateRange = (start, end) => {
 }
 
 export const showDateTime = (
-    sqlDT,
-    options = { locale: 'en-us', tz: 'UTC' }
+    sqlDT: string,
+    options = { locale: 'en-us', tz: 'UTC', format: '', dateOnly: false, timeOnly: false }
 ) => {
     // Split timestamp into [ Y, M, D, h, m, s ]
     let dt;
@@ -206,59 +206,4 @@ export const showDateTime = (
     ).format(dt);
 };
 
-export const ordinalize = (n) => {
-    const s = ['th', 'st', 'nd', 'rd'];
-    const v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-};
-
-export const escapeCSV = (string, excludeComma) => {
-    if (!string) { return `\\N${!excludeComma ? ',' : ''}`; }
-    /* eslint-disable prefer-regex-literals */
-    return `"${string
-        .replace(new RegExp('"', 'g'), '')
-        .replace(new RegExp(/\\/, 'g'), '')
-        .trim()}"${!excludeComma ? ',' : ''}`;
-};
-
-export const emailValidator = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-export const affName = (eventName) => {
-    if (eventName === 'pf') { return 'Pro'; }
-    return 'Aff';
-};
-export const negName = (eventName) => {
-    if (eventName === 'pf') { return 'Con'; }
-    return 'Neg';
-};
-export const normalizeSide = (side) => {
-    switch (side) {
-        case 'A': return 'A';
-        case 'Aff': return 'A';
-        case 'Pro': return 'A';
-        case 'N': return 'N';
-        case 'Neg': return 'N';
-        case 'Con': return 'N';
-        default: return side;
-    }
-};
-export const displaySide = (side, event) => {
-    if (['A', 'Aff', 'Pro'].indexOf(side) > -1) {
-        return event === 'pf' ? 'Pro' : 'Aff';
-    }
-    if (['N', 'Neg', 'Con'].indexOf(side) > -1) {
-        return event === 'pf' ? 'Con' : 'Neg';
-    }
-    return side;
-};
-
-export const roundName = (round) => {
-    if (parseInt(round)) { return `Round ${round}`; }
-    return round;
-};
-
 export default null;
-
-export { default as fetch } from './fetch.js';
-
-export { default as randomPhrase } from './randomPhrase.js';
