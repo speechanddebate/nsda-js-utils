@@ -1,3 +1,3 @@
 # nsda-js-utils
 
-JS utility functions shared by NSDA projects
+JS utility functions and Typescript types shared by NSDA projects
