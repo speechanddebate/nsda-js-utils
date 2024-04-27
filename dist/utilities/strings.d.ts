@@ -1,0 +1,10 @@
+export declare const ordinalize: (n: number) => string;
+export declare const escapeCSV: (string: string, excludeComma?: boolean) => string;
+export declare const emailValidator: RegExp;
+export declare const affName: (eventName?: string) => string;
+export declare const negName: (eventName?: string) => string;
+export declare const normalizeSide: (side: string) => string;
+export declare const displaySide: (side: string, event?: string) => string;
+export declare const roundName: (round: number | string) => string | number;
+declare const _default: null;
+export default _default;

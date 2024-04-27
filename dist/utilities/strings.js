@@ -1,10 +1,9 @@
-export const ordinalize = (n: number): string => {
+export const ordinalize = (n) => {
     const s = ['th', 'st', 'nd', 'rd'];
     const v = n % 100;
     return n.toString() + (s[(v - 20) % 10] || s[v] || s[0]);
 };
-
-export const escapeCSV = (string: string, excludeComma?: boolean): string => {
+export const escapeCSV = (string, excludeComma) => {
     if (!string) {
         return `\\N${!excludeComma ? ',' : ''}`;
     }
@@ -14,22 +13,20 @@ export const escapeCSV = (string: string, excludeComma?: boolean): string => {
         .replace(new RegExp(/\\/, 'g'), '')
         .trim()}"${!excludeComma ? ',' : ''}`;
 };
-
 export const emailValidator = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-export const affName = (eventName?: string): string => {
+export const affName = (eventName) => {
     if (eventName === 'pf') {
         return 'Pro';
     }
     return 'Aff';
 };
-export const negName = (eventName?: string): string => {
+export const negName = (eventName) => {
     if (eventName === 'pf') {
         return 'Con';
     }
     return 'Neg';
 };
-export const normalizeSide = (side: string): string => {
+export const normalizeSide = (side) => {
     switch (side) {
         case 'A':
             return 'A';
@@ -47,7 +44,7 @@ export const normalizeSide = (side: string): string => {
             return side;
     }
 };
-export const displaySide = (side: string, event?: string): string => {
+export const displaySide = (side, event) => {
     if (['A', 'Aff', 'Pro'].includes(side)) {
         return event === 'pf' ? 'Pro' : 'Aff';
     }
@@ -56,12 +53,10 @@ export const displaySide = (side: string, event?: string): string => {
     }
     return side;
 };
-
-export const roundName = (round: number | string): string | number => {
+export const roundName = (round) => {
     if (parseInt(round.toString())) {
         return `Round ${round.toString()}`;
     }
     return round;
 };
-
 export default null;

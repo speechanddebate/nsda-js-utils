@@ -1,0 +1,15 @@
+declare const now: () => Date;
+export { now as today };
+export declare const yesterday: () => Date;
+export declare const tomorrow: () => Date;
+export declare const currentMonth: () => number;
+export declare const currentYear: () => number;
+export declare const previousYear: () => number;
+export declare const nextYear: () => number;
+export declare const startOfYear: () => number;
+export declare const endOfYear: () => number;
+export declare const isValidDate: (date: string) => boolean;
+export declare const academicYear: (year?: string | number) => string;
+export declare const condenseDateRange: (start: string, end: string) => string;
+declare const _default: null;
+export default _default;

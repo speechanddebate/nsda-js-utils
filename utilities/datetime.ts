@@ -1,209 +1,48 @@
-import moment from 'moment-timezone';
-
-const now = new Date();
+const now = (): Date => new Date();
 
 export { now as today };
-export const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
-export const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
-export const currentMonth = now.getMonth();
-export const currentYear = now.getFullYear();
-export const previousYear = (now.getFullYear() - 1);
-export const nextYear = (now.getFullYear() + 1);
-export const startOfYear = currentMonth < 6 ? previousYear : currentYear;
-export const endOfYear = currentMonth < 6 ? currentYear : nextYear;
+export const yesterday = (): Date =>
+    new Date(new Date().setDate(new Date().getDate() - 1));
+export const tomorrow = (): Date =>
+    new Date(new Date().setDate(new Date().getDate() + 1));
+export const currentMonth = (): number => now().getMonth();
+export const currentYear = (): number => now().getFullYear();
+export const previousYear = (): number => now().getFullYear() - 1;
+export const nextYear = (): number => now().getFullYear() + 1;
+export const startOfYear = (): number =>
+    currentMonth() < 6 ? previousYear() : currentYear();
+export const endOfYear = (): number =>
+    currentMonth() < 6 ? currentYear() : nextYear();
 
-// eslint-disable-next-line no-restricted-globals, no-unneeded-ternary
-export const isValidDate = date => (isNaN(new Date(date)) ? false : true);
+export const isValidDate = (date: string): boolean =>
+    !Number.isNaN(Date.parse(date));
 
-export const momentObjectOrStringToISODate = input => {
-    if (!isValidDate(input)) return null;
-    return input._isAMomentObject ?
-        input.toISOString().substr(0, 10)
-    :
-        new Date(input).toISOString().substr(0, 10);
-};
-
-export const momentObjectOrStringToISODateTime = input => (
-    input._isAMomentObject ?
-        input.toISOString()
-    :
-        new Date(`${input} UTC`).toISOString()
-);
-
-export const academicYear = (year: string) => {
+export const academicYear = (year?: string | number): string => {
     // If passed a valid year, assume it's the start of the academic year
-    if (parseInt(year)) {
-        return `${year}-${year + 1}`;
+    if (year && parseInt(year.toString())) {
+        const endYear = parseInt(year.toString()) + 1;
+        return `${year.toString()}-${endYear.toString()}`;
     }
 
     // Otherwise, assume the current year
-    if (currentMonth < 6) {
-        return `${previousYear}-${currentYear}`;
+    if (currentMonth() < 6) {
+        return `${previousYear().toString()}-${currentYear().toString()}`;
     }
-    return `${currentYear}-${nextYear}`;
+    return `${currentYear().toString()}-${nextYear().toString()}`;
 };
 
-export const tabroomAcademicYear = (targetDate) => {
-    // Without a passed object just assume we are here & now
-    if (typeof targetDate !== 'object' || Object.prototype.toString.call(targetDate) !== '[object Date]') {
-        targetDate = new Date();
-    }
-
-    let startYear = targetDate.getFullYear();
-
-    if (targetDate.getMonth() < 7) {
-        // eslint-disable-next-line no-plusplus
-        startYear--;
-    }
-
-    const endYear = startYear + 1;
-
-    return `${startYear}-${endYear}`;
-};
-
-export const condenseDateRange = (start: string, end: string) => {
-    const startMoment = moment(start || null);
-    const endMoment = moment(end || null);
-
+export const condenseDateRange = (start: string, end: string): string => {
     let dates = '';
-    if (startMoment.isValid() && endMoment.isValid()) {
-        if (startMoment.isSame(endMoment, 'day')) {
-            dates = `${startMoment.format('l')}`;
+    if (isValidDate(start) && isValidDate(end)) {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        if (startDate.toDateString() === endDate.toDateString()) {
+            dates = startDate.toLocaleDateString();
         } else {
-            dates = `${startMoment.local().format('l')} - ${endMoment.local().format('l')}`;
+            dates = `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
         }
     }
     return dates;
-}
-
-export const showDateTime = (
-    sqlDT: string,
-    options = { locale: 'en-us', tz: 'UTC', format: '', dateOnly: false, timeOnly: false }
-) => {
-    // Split timestamp into [ Y, M, D, h, m, s ]
-    let dt;
-
-    if (typeof sqlDT === 'string') {
-        const dtString = sqlDT.split(/[- :]/);
-
-        // Apply each element to the Date function
-        dt = new Date(Date.UTC(
-            dtString[0],
-            dtString[1] - 1,
-            dtString[2],
-            dtString[3],
-            dtString[4],
-            dtString[5]
-        ));
-    } else {
-        dt = sqlDT;
-    }
-
-    let dateFormat = {};
-    let chopped = {};
-
-    switch (options.format) {
-        case 'full':
-            dateFormat = {
-                timeZone: options.tz,
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                timeZoneName: 'short',
-            };
-            break;
-
-        case 'long':
-            dateFormat = {
-                timeZone: options.tz,
-                weekday: 'short',
-                month: 'long',
-                year: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                timeZoneName: 'short',
-            };
-            break;
-
-        case 'medium':
-            dateFormat = {
-                timeZone: options.tz,
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                timeZoneName: 'short',
-            };
-            break;
-
-        case 'short':
-            dateFormat = {
-                timeZone: options.tz,
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-            };
-            break;
-
-        case 'daytime':
-            dateFormat = {
-                timeZone: options.tz,
-                weekday: 'short',
-                hour: 'numeric',
-                minute: 'numeric',
-            };
-            break;
-
-        case 'sortable':
-            chopped = new Intl.DateTimeFormat(
-                options.locale,
-                {
-                    timeZone: options.tz,
-                    month: 'numeric',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    hour12: true,
-                }
-            )
-            .formatToParts(dt)
-            .map(component => {
-                return component.reduce((dtString, comp) => {
-                    if (comp.type !== 'literal') {
-                        dtString[comp.type] = comp.value;
-                    }
-                    return comp.value;
-                });
-            });
-
-            return `${chopped.year}-${chopped.month}-${chopped.day} ${chopped.hour}-${chopped.minute}`;
-
-        default:
-            return dt;
-    }
-
-    if (options.dateOnly) {
-        delete dateFormat.hour;
-        delete dateFormat.minute;
-        delete dateFormat.timeZoneName;
-    }
-
-    if (options.timeOnly) {
-        delete dateFormat.year;
-        delete dateFormat.month;
-        delete dateFormat.day;
-        delete dateFormat.timeZoneName;
-    }
-
-    return new Intl.DateTimeFormat(
-        options.locale,
-        dateFormat
-    ).format(dt);
 };
 
 export default null;
