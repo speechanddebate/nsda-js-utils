@@ -27,9 +27,9 @@
 	},
 	"homepage": "https://github.com/speechanddebate/nsda-js-utils#readme",
 	"devDependencies": {
-		"@speechanddebate/eslint-config-nsda": "^2.0.4",
+		"@speechanddebate/eslint-config-nsda": "^2.0.6",
 		"@types/chai": "^4.3.14",
-		"@types/jest": "^29.5.12",
+		"@types/jest": "^28.1.6",
 		"@vitest/coverage-v8": "^1.5.2",
 		"chai": "^4.2.0",
 		"eslint": "^8.57.0",
