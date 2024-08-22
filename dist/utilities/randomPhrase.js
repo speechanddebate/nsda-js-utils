@@ -286,8 +286,7 @@ export const randomPhrase = () => {
         number += 1;
     }
     adjective =
-        adjective.charAt(0).toUpperCase() +
-            adjective.substring(1).toLowerCase();
+        adjective.charAt(0).toUpperCase() + adjective.substring(1).toLowerCase();
     animal = animal.charAt(0).toUpperCase() + animal.substring(1).toLowerCase();
     return `${adjective}${animal}${number.toString()}`;
 };
