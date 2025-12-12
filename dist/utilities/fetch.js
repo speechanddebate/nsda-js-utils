@@ -1,6 +1,6 @@
 export default async (url, opt) => {
-    const maxRetries = opt.maxRetries ?? 1;
-    let retryDelay = opt.retryDelay ?? 100;
+    const maxRetries = opt?.maxRetries ?? 1;
+    let retryDelay = opt?.retryDelay ?? 100;
     if (process.env.NODE_ENV === 'test')
         retryDelay = 10;
     let statusCode;
@@ -25,7 +25,7 @@ export default async (url, opt) => {
                 const json = JSON.parse(text);
                 body = json;
             }
-            catch (err) {
+            catch {
                 body = text || statusText;
             }
             let message = '';

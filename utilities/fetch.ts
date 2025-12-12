@@ -1,11 +1,11 @@
 /* eslint-disable no-await-in-loop */
-import { FetchOptions, ResponseError } from '../types/index.js';
+import type { FetchOptions, ResponseError } from '../types/index.js';
 
 type Body = string | Record<string, unknown> | Record<string, unknown>[];
 
-export default async (url: string, opt: FetchOptions): Promise<Response> => {
-	const maxRetries = opt.maxRetries ?? 1;
-	let retryDelay = opt.retryDelay ?? 100;
+export default async (url: string, opt?: FetchOptions): Promise<Response> => {
+	const maxRetries = opt?.maxRetries ?? 1;
+	let retryDelay = opt?.retryDelay ?? 100;
 	if (process.env.NODE_ENV === 'test') retryDelay = 10;
 
 	let statusCode;
@@ -32,7 +32,7 @@ export default async (url: string, opt: FetchOptions): Promise<Response> => {
 			try {
 				const json = JSON.parse(text) as Body;
 				body = json;
-			} catch (err) {
+			} catch {
 				body = text || statusText;
 			}
 
