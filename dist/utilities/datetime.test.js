@@ -39,4 +39,11 @@ describe('Condense date range helper', () => {
     it('should return nothing for invalid dates', () => {
         assert.strictEqual(condenseDateRange('', ''), '', 'Correct date range');
     });
+    it('should handle date-only strings', () => {
+        assert.strictEqual(condenseDateRange('2017-08-01', '2017-08-02'), '8/1/2017 - 8/2/2017');
+    });
+    it('should ignore timezone offsets on datetime strings', () => {
+        assert.strictEqual(condenseDateRange('2017-08-01 23:00:00', '2017-08-01 23:00:00'), '8/1/2017');
+        assert.strictEqual(condenseDateRange('2017-08-01T23:00:00Z', '2017-08-01T23:00:00Z'), '8/1/2017');
+    });
 });

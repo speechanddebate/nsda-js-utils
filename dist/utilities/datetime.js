@@ -21,18 +21,22 @@ export const academicYear = (year) => {
     }
     return `${currentYear().toString()}-${nextYear().toString()}`;
 };
+const parseCalendarDate = (input) => {
+    const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(input);
+    if (!match)
+        return null;
+    const [, y, m, d] = match;
+    const date = new Date(Number(y), Number(m) - 1, Number(d));
+    return Number.isNaN(date.getTime()) ? null : date;
+};
 export const condenseDateRange = (start, end) => {
-    let dates = '';
-    if (isValidDate(start) && isValidDate(end)) {
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-        if (startDate.toDateString() === endDate.toDateString()) {
-            dates = startDate.toLocaleDateString();
-        }
-        else {
-            dates = `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
-        }
+    const startDate = parseCalendarDate(start);
+    const endDate = parseCalendarDate(end);
+    if (!startDate || !endDate)
+        return '';
+    if (startDate.toDateString() === endDate.toDateString()) {
+        return startDate.toLocaleDateString();
     }
-    return dates;
+    return `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
 };
 export default null;
